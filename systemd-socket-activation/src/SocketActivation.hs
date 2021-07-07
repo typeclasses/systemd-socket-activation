@@ -1,0 +1,21 @@
+module SocketActivation
+  ( getMySocketByName
+  , module Concepts
+  ) where
+
+import Relude
+
+import qualified Control.Exception as Ex
+
+import qualified SocketActivation.CheckRecipient as SA
+import qualified SocketActivation.Concepts as SA
+import qualified SocketActivation.Env as SA
+import qualified SocketActivation.GetByName as SA
+
+import SocketActivation.Concepts as Concepts
+
+getMySocketByName :: SA.Name -> IO SA.Socket
+getMySocketByName name = f SA.checkRecipient *> f (SA.getSocketByName name)
+  where
+    f :: IO (Either SA.Error a) -> IO a
+    f = (>>= either (\e -> (SA.getEnvVars >>= print) *> Ex.throw e) return)
