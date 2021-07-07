@@ -32,6 +32,8 @@ library
 
     exposed-modules:
         SocketActivation
+
+    other-modules:
         SocketActivation.CheckRecipient
         SocketActivation.Concepts
         SocketActivation.Env

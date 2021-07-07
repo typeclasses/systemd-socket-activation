@@ -1,7 +1,12 @@
 module SocketActivation
-  ( getMySocketByName
-  , module Concepts
-  ) where
+    (
+    -- * Actions
+      getMySocketByName
+
+    -- * Types
+    , Name (..), VarName (..), Socket, Error (..)
+
+    ) where
 
 import Relude
 
