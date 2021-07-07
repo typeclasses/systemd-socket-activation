@@ -10,10 +10,14 @@ module SocketActivation.Concepts
   , Error (..)
   ) where
 
-import Relude
+import           Control.Exception  (Exception)
+import           Data.String        (IsString)
+import           Data.Text          (Text)
+import           Numeric.Natural    (Natural)
+import           Prelude            (Bounded, Enum, Eq, Ord, Show)
 
-import Network.Socket (Socket)
-import System.Posix.Types (Fd (..), ProcessID)
+import           Network.Socket     (Socket)
+import           System.Posix.Types (Fd (..), ProcessID)
 
 -- | The ID of the process to whom systemd has given the sockets. A process should not use sockets that are intended for someone else, so we should always check that this matches our own PID before proceeding doing anything with the sockets.
 newtype Recipient = RecipientPID { recipientPID :: ProcessID }

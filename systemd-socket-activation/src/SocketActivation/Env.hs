@@ -1,20 +1,28 @@
 module SocketActivation.Env where
 
-import Relude
+import           Control.Monad             (Monad (return, (>>=)))
+import           Control.Monad.IO.Class    (MonadIO (liftIO))
+import           Data.Either               (Either, either)
+import           Data.Function             (($), (.))
+import           Data.Maybe                (Maybe (..), maybe)
+import           Data.Text                 (Text)
+import           Data.Traversable          (Traversable (traverse))
+import           Prelude                   (Bounded (maxBound, minBound))
+import           System.IO                 (IO)
+import           Text.Show                 (show)
 
-import qualified Data.Text as Text
+import qualified Data.Text                 as Text
+import qualified System.Environment        as Sys
 
-import qualified System.Environment as Sys
-
-import SocketActivation.Concepts
-import SocketActivation.IO
-import SocketActivation.Parsing
+import           SocketActivation.Concepts
+import           SocketActivation.IO
+import           SocketActivation.Parsing
 
 getVarText :: VarName -> IO (Either Error Text)
 getVarText name = run (getMaybe >>= throwIfMissing >>= pack)
   where
     throwIfMissing = maybe (throwError (Missing name)) return
-    getMaybe = liftIO $ Sys.lookupEnv $ show @String @VarName name
+    getMaybe = liftIO $ Sys.lookupEnv $ show @VarName name
     pack = return . Text.pack
 
 getEnvVars :: IO [(VarName, Maybe Text)]

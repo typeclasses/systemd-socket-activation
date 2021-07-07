@@ -2,13 +2,18 @@
 
 module SocketActivation.CheckRecipient where
 
-import Relude
+import           Control.Monad             (Monad (return, (>>=)))
+import           Control.Monad.IO.Class    (MonadIO (liftIO))
+import           Data.Either               (Either)
+import           Data.Eq                   (Eq ((==)))
+import           Data.Function             ((.))
+import           System.IO                 (IO)
 
-import qualified System.Posix.Process as Sys
+import qualified System.Posix.Process      as Sys
 
-import SocketActivation.Concepts
-import SocketActivation.Env
-import SocketActivation.IO
+import           SocketActivation.Concepts
+import           SocketActivation.Env
+import           SocketActivation.IO
 
 checkRecipient :: IO (Either Error ())
 checkRecipient = run (getIt >>= checkIt)
