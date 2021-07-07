@@ -21,7 +21,17 @@ copyright: 2021 Mission Valley Software LLC
 license: MIT
 license-file: license.txt
 
+author:     Chris Martin
+maintainer: Chris Martin, Julie Moronuki
+
+homepage:    https://github.com/typeclasses/systemd-socket-activation
+bug-reports: https://github.com/typeclasses/systemd-socket-activation/issues
+
 build-type: Simple
+
+source-repository head
+  type: git
+  location: https://github.com/typeclasses/systemd-socket-activation
 
 library
     default-language: Haskell2010
