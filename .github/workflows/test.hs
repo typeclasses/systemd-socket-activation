@@ -24,3 +24,7 @@ constraints ghc = case ghc of
         , "network"      .= "3.1.2.*"
         , "text"         .= "1.2.4.*"
         ]
+    "9.2" ->
+        [ "base"         .= "4.16.*"
+        , "transformers" .= "0.6.*"
+        ]
