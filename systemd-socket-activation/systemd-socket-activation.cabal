@@ -27,8 +27,6 @@ maintainer: Chris Martin, Julie Moronuki
 homepage:    https://github.com/typeclasses/systemd-socket-activation
 bug-reports: https://github.com/typeclasses/systemd-socket-activation/issues
 
-build-type: Simple
-
 source-repository head
   type: git
   location: https://github.com/typeclasses/systemd-socket-activation
