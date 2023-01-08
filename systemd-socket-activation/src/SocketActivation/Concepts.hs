@@ -1,14 +1,16 @@
 module SocketActivation.Concepts
-  ( Recipient (..)
-  , ProcessID
-  , Count (..)
-  , Name (..)
-  , Names (..)
-  , VarName (..)
-  , Fd (..)
-  , Socket
-  , Error (..)
-  ) where
+    (
+        Recipient (..),
+        ProcessID,
+        Count (..),
+        Name (..),
+        Names (..),
+        VarName (..),
+        Fd (..),
+        Socket,
+        Error (..),
+    )
+    where
 
 import Control.Exception (Exception)
 import Data.String (IsString)

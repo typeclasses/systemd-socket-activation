@@ -1,12 +1,9 @@
 module SocketActivation
     (
-    -- * Actions
-      getMySocketByName
-
-    -- * Types
-    , Name (..), VarName (..), Socket, Error (..)
-
-    ) where
+        {- * Actions -} getMySocketByName,
+        {- * Types -} Name (..), VarName (..), Socket, Error (..),
+    )
+    where
 
 import Control.Applicative (Applicative ((*>)))
 import Control.Monad (Monad (return, (>>=)))
