@@ -27,7 +27,11 @@ getVarText name = run (getMaybe >>= throwIfMissing >>= pack)
     pack = return . Text.pack
 
 getEnvVars :: IO [(VarName, Maybe Text)]
-getEnvVars = traverse (\x -> getVarText x >>= \y -> return (x, either (\_ -> Nothing) Just y)) [minBound .. maxBound]
+getEnvVars =
+    traverse
+        (\x -> getVarText x >>= \y ->
+            return (x, either (\_ -> Nothing) Just y))
+        [minBound .. maxBound]
 
 data Env a = Env VarName (Text -> Maybe a)
 

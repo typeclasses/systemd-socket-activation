@@ -13,7 +13,7 @@ import SocketActivation.Concepts (Fd (..), Error, Count (countNat))
 import SocketActivation.Env (getEnv')
 import SocketActivation.IO (IO' (IO', run))
 
--- | Get a list of file descriptors for the sockets.
+{-| Get a list of file descriptors for the sockets -}
 getFileDescriptorList :: IO (Either Error [Fd])
 getFileDescriptorList = run (getCount >>= enumerateFds)
   where

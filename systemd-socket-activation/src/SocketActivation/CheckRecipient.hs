@@ -25,4 +25,5 @@ checkRecipient' :: Recipient -> IO (Either Error ())
 checkRecipient' x = run (getMyPid >>= throwIfDifferent)
   where
     getMyPid = liftIO Sys.getProcessID
-    throwIfDifferent y = if recipientPID x == y then return () else throwError WrongProcess
+    throwIfDifferent y =
+        if recipientPID x == y then return () else throwError WrongProcess
