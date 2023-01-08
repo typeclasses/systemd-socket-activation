@@ -56,7 +56,7 @@ library
         SocketActivation.Parsing
 
     build-depends:
-        base         ^>= 4.14 || ^>= 4.15 || ^>= 4.16 || ^>= 4.17
+      , base         ^>= 4.14 || ^>= 4.15 || ^>= 4.16 || ^>= 4.17
       , containers   ^>= 0.6
       , network      ^>= 3.1
       , text         ^>= 1.2.3
