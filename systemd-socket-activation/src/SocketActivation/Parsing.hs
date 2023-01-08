@@ -1,18 +1,17 @@
 module SocketActivation.Parsing where
 
-import           Control.Monad             (Functor (fmap), Monad (return),
-                                            (>=>))
-import           Data.Bits                 (toIntegralSized)
-import           Data.Function             ((.))
-import           Data.Maybe                (Maybe)
-import           Data.Text                 (Text)
-import           Foreign.C.Types           (CInt)
-import           Numeric.Natural           (Natural)
-import           Text.Read                 (readMaybe)
+import Control.Monad (Functor (fmap), Monad (return), (>=>))
+import Data.Bits (toIntegralSized)
+import Data.Function ((.))
+import Data.Maybe (Maybe)
+import Data.Text (Text)
+import Foreign.C.Types (CInt)
+import Numeric.Natural (Natural)
+import Text.Read (readMaybe)
 
-import qualified Data.Text                 as Text
+import qualified Data.Text as Text
 
-import           SocketActivation.Concepts
+import SocketActivation.Concepts
 
 readRecipient :: Text -> Maybe Recipient
 readRecipient = read >=> wrap

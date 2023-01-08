@@ -1,23 +1,23 @@
 module SocketActivation.GetByName where
 
-import           Control.Applicative                 (Applicative ((<*>)),
-                                                      (<$>))
-import           Control.Monad                       (Monad (return, (>>=)))
-import           Control.Monad.IO.Class              (MonadIO (liftIO))
-import           Data.Either                         (Either)
-import           Data.Function                       ((.))
-import           Data.List                           (zip)
-import           Data.Map                            (Map)
-import           Data.Maybe                          (maybe)
-import           System.IO                           (IO)
+import Control.Applicative (Applicative ((<*>)), (<$>))
+import Control.Monad (Monad (return, (>>=)))
+import Control.Monad.IO.Class (MonadIO (liftIO))
+import Data.Either (Either)
+import Data.Function ((.))
+import Data.List (zip)
+import Data.Map (Map)
+import Data.Maybe (maybe)
+import System.IO (IO)
 
-import qualified Data.Map                            as Map
+import qualified Data.Map as Map
 
-import           SocketActivation.Concepts
-import           SocketActivation.Env
-import           SocketActivation.GetFileDescriptors
-import           SocketActivation.GetSockets
-import           SocketActivation.IO
+import SocketActivation.Concepts
+    (Socket, Fd, Error (NoSuchName), Names (namesList), Name)
+import SocketActivation.Env (getEnv')
+import SocketActivation.GetFileDescriptors (getFileDescriptorList)
+import SocketActivation.GetSockets (getSocketList, fdSocket)
+import SocketActivation.IO (IO' (IO', run), throwError)
 
 getNameList :: IO (Either Error [Name])
 getNameList = run (getNames >>= unwrap)

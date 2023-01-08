@@ -2,18 +2,18 @@
 
 module SocketActivation.CheckRecipient where
 
-import           Control.Monad             (Monad (return, (>>=)))
-import           Control.Monad.IO.Class    (MonadIO (liftIO))
-import           Data.Either               (Either)
-import           Data.Eq                   (Eq ((==)))
-import           Data.Function             ((.))
-import           System.IO                 (IO)
+import Control.Monad (Monad (return, (>>=)))
+import Control.Monad.IO.Class (MonadIO (liftIO))
+import Data.Either (Either)
+import Data.Eq (Eq ((==)))
+import Data.Function ((.))
+import System.IO (IO)
 
-import qualified System.Posix.Process      as Sys
+import qualified System.Posix.Process as Sys
 
-import           SocketActivation.Concepts
-import           SocketActivation.Env
-import           SocketActivation.IO
+import SocketActivation.Concepts (Error(WrongProcess), Recipient (recipientPID))
+import SocketActivation.Env (getEnv')
+import SocketActivation.IO (IO' (IO', run), throwError)
 
 checkRecipient :: IO (Either Error ())
 checkRecipient = run (getIt >>= checkIt)
