@@ -45,5 +45,5 @@ getSocketByName :: Name -> IO (Either Error Socket)
 getSocketByName name = run (getMap >>= findFd >>= convertToSocket)
   where
     getMap = IO' getFileDescriptorMap
-    findFd = maybe (throwError (NoSuchName name)) return . Map.lookup name
+    findFd m = maybe (throwError (NoSuchName name (Map.keys m))) return (Map.lookup name m)
     convertToSocket = liftIO . fdSocket

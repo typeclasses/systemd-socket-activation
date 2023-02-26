@@ -1,3 +1,11 @@
+# 1.1.0.0 (2023-02-25)
+
+The `NoSuchName` constructor of `Error` now has an additional field that
+indicates which sockets are available.
+
+The `displayException` method of `Error` has been changed from the default
+implementation; it now constructs sentences.
+
 # 1.0.0.2 (2023-01-08)
 
 Support GHC 9.4
