@@ -5,8 +5,8 @@ module SocketActivation
     )
     where
 
-import Control.Applicative (Applicative ((*>)))
-import Control.Monad (Monad (return, (>>=)))
+import Essentials
+
 import Data.Either (Either, either)
 import System.IO (IO, print)
 
@@ -23,4 +23,4 @@ getMySocketByName :: Name -> IO Socket
 getMySocketByName name = f SA.checkRecipient *> f (SA.getSocketByName name)
   where
     f :: IO (Either Error a) -> IO a
-    f = (>>= either (\e -> (SA.getEnvVars >>= print) *> Ex.throw e) return)
+    f = (>>= either (\e -> (SA.getEnvVars >>= print) *> Ex.throw e) pure)

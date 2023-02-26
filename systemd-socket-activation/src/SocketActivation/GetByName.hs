@@ -1,13 +1,11 @@
 module SocketActivation.GetByName where
 
-import Control.Applicative (Applicative ((<*>)), (<$>))
-import Control.Monad (Monad (return, (>>=)))
+import Essentials
+
 import Control.Monad.IO.Class (MonadIO (liftIO))
 import Data.Either (Either)
-import Data.Function ((.))
 import Data.List (zip)
 import Data.Map (Map)
-import Data.Maybe (maybe)
 import System.IO (IO)
 
 import qualified Data.Map as Map
@@ -20,30 +18,22 @@ import SocketActivation.GetSockets (getSocketList, fdSocket)
 import SocketActivation.IO (IO' (IO', run), throwError)
 
 getNameList :: IO (Either Error [Name])
-getNameList = run (getNames >>= unwrap)
-  where
-    getNames = IO' (getEnv' @Names)
-    unwrap = return . namesList
+getNameList = run $ IO' (getEnv' @Names) <&> namesList
 
 getFileDescriptorMap :: IO (Either Error (Map Name Fd))
-getFileDescriptorMap = run (entries >>= toMap)
+getFileDescriptorMap = run $ entries <&> Map.fromList
   where
-    entries = zip <$> keys <*> values
-    keys = IO' getNameList
-    values = IO' getFileDescriptorList
-    toMap = return . Map.fromList
+    entries = zip <$> IO' getNameList <*> IO' getFileDescriptorList
 
 getSocketMap :: IO (Either Error (Map Name Socket))
-getSocketMap = run (entries >>= toMap)
+getSocketMap = run (entries <&> Map.fromList)
   where
-    entries = zip <$> keys <*> values
-    keys = IO' getNameList
-    values = IO' getSocketList
-    toMap = return . Map.fromList
+    entries = zip <$> IO' getNameList <*> IO' getSocketList
 
 getSocketByName :: Name -> IO (Either Error Socket)
-getSocketByName name = run (getMap >>= findFd >>= convertToSocket)
-  where
-    getMap = IO' getFileDescriptorMap
-    findFd m = maybe (throwError (NoSuchName name (Map.keys m))) return (Map.lookup name m)
-    convertToSocket = liftIO . fdSocket
+getSocketByName name = run do
+    m <- IO' getFileDescriptorMap
+    fd <- case Map.lookup name m of
+        Nothing -> throwError (NoSuchName name (Map.keys m))
+        Just x -> pure x
+    liftIO $ fdSocket fd

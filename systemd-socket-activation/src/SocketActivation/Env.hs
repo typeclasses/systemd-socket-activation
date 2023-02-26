@@ -1,12 +1,10 @@
 module SocketActivation.Env where
 
-import Control.Monad (Monad (return, (>>=)))
+import Essentials
+
 import Control.Monad.IO.Class (MonadIO (liftIO))
 import Data.Either (Either, either)
-import Data.Function (($), (.))
-import Data.Maybe (Maybe (..), maybe)
 import Data.Text (Text)
-import Data.Traversable (Traversable (traverse))
 import Prelude (Bounded (maxBound, minBound))
 import System.IO (IO)
 import Text.Show (show)
@@ -20,26 +18,21 @@ import SocketActivation.IO (IO' (IO', run), throwError)
 import SocketActivation.Parsing (readRecipient, readCount, readNames)
 
 getVarText :: VarName -> IO (Either Error Text)
-getVarText name = run (getMaybe >>= throwIfMissing >>= pack)
+getVarText name = run $ getMaybe >>= throwIfMissing <&> Text.pack
   where
-    throwIfMissing = maybe (throwError (Missing name)) return
+    throwIfMissing = maybe (throwError (Missing name)) pure
     getMaybe = liftIO $ Sys.lookupEnv $ show @VarName name
-    pack = return . Text.pack
 
 getEnvVars :: IO [(VarName, Maybe Text)]
-getEnvVars =
-    traverse
-        (\x -> getVarText x >>= \y ->
-            return (x, either (\_ -> Nothing) Just y))
-        [minBound .. maxBound]
+getEnvVars = [minBound .. maxBound] & traverse \x ->
+    getVarText x <&> \y -> (x, either (\_ -> Nothing) Just y)
 
 data Env a = Env VarName (Text -> Maybe a)
 
 getEnv :: Env a -> IO (Either Error a)
-getEnv (Env name read) = run (getText >>= readOrThrow)
-  where
-    getText = IO' (getVarText name)
-    readOrThrow = maybe (throwError (Invalid name)) return . read
+getEnv (Env name read) = run $
+    IO' (getVarText name) >>=
+    (maybe (throwError (Invalid name)) pure . read)
 
 getEnv' :: Env' a => IO (Either Error a)
 getEnv' = getEnv env'

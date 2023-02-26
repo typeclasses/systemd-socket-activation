@@ -12,16 +12,15 @@ module SocketActivation.Concepts
     )
     where
 
+import Essentials
+
 import Control.Exception (Exception (..), SomeException (..))
-import Data.Functor ((<$>))
-import Data.Function ((.))
-import Data.Semigroup ((<>))
-import Data.String (IsString)
+import Data.String (IsString, String)
 import Data.Text (Text)
 import Data.Typeable (cast)
 import Network.Socket (Socket)
 import Numeric.Natural (Natural)
-import Prelude (Bounded, Enum, Eq, Ord, Show, String, show)
+import Prelude (show)
 import System.Posix.Types (Fd (..), ProcessID)
 
 import qualified Data.Text as Text

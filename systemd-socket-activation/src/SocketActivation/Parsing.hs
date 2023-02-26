@@ -1,9 +1,8 @@
 module SocketActivation.Parsing where
 
-import Control.Monad (Functor (fmap), Monad (return), (>=>))
+import Essentials
+
 import Data.Bits (toIntegralSized)
-import Data.Function ((.))
-import Data.Maybe (Maybe)
 import Data.Text (Text)
 import Foreign.C.Types (CInt)
 import Numeric.Natural (Natural)
@@ -17,14 +16,14 @@ readRecipient :: Text -> Maybe Recipient
 readRecipient = read >=> wrap
   where
     read = readMaybe @ProcessID . Text.unpack
-    wrap = return . RecipientPID
+    wrap = pure . RecipientPID
 
 readCount :: Text -> Maybe Count
 readCount = read >=> convert >=> wrap
   where
     read = readMaybe @CInt . Text.unpack
     convert = toIntegralSized :: CInt -> Maybe Natural
-    wrap = return . CountNat
+    wrap = pure . CountNat
 
 readNames :: Text -> Names
 readNames = NamesList . fmap NameText . Text.splitOn ":"
